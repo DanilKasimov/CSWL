@@ -249,7 +249,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         for i in arr:
             cursor = db.conn.cursor()
             try:
-                cursor.execute("SELECT * FROM cswl3orm.files WHERE filename = '" + i + "'")
+                cursor.execute("SELECT * FROM cswl3orm.files WHERE filename = '%s'" % i)
             except:
                 cursor.close()
                 self.CreateDb()
@@ -261,7 +261,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                 try:
                     self.exec_sql_file(cursor, i)
                 except:
-                    QMessageBox.about(self, "Error!", "Invalid SqlFile " + i)
+                    QMessageBox.about(self, "Error!", "Invalid SqlFile %s" % i)
                 cursor.close()
                 cursor = db.conn.cursor()
                 cursor.execute("INSERT INTO cswl3orm.files(FileName, FileHash)VALUES('%s', '%s')" % (i, self.md5(i)))
@@ -272,7 +272,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     QMessageBox.about(self, "Message", "You are using the current version of the database")
                     return
                 else:
-                    QMessageBox.about(self, "Error!", "The content of the file has been changed " + i)
+                    QMessageBox.about(self, "Error!", "The content of the file has been changed %s" % i)
                     return
         QMessageBox.about(self, "Message!", "Sync of Database ended")
 
