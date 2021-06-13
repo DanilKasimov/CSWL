@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QMessageBox
 import design
 import Db
 
-data = Db.Db(host='localhost', database='cswl1', user='root', password='root')
+data = Db.Db(host='localhost', database='cswl1', user='root', password='Danilka210300')
 strnumber = 1
 
 
@@ -23,7 +23,11 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         global strnumber
         strnumber += 1
         self.Label.setText(str(strnumber))
-        self.Show(subres=data.Select(main_query=data.last_query, strnumber=strnumber))
+        try:
+            self.Show(subres=data.Select(main_query=data.last_query, strnumber=strnumber))
+        except:
+            QMessageBox.about(self, "Error", "Query Error!")
+            data.Close()
 
     def Left(self):
         global strnumber
@@ -31,7 +35,11 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
             return
         strnumber -= 1
         self.Label.setText(str(strnumber))
-        self.Show(subres=data.Select(main_query=data.last_query, strnumber=strnumber))
+        try:
+            self.Show(subres=data.Select(main_query=data.last_query, strnumber=strnumber))
+        except:
+            QMessageBox.about(self, "Error", "Query Error!")
+            data.Close()
 
     def Search(self):
         usl = self.SearchText.text()
@@ -44,73 +52,121 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                 self.ShowCook(subres)
                 self.tableWidget.resizeColumnsToContents()
                 return
-            self.ShowCook(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            try:
+                self.ShowCook(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            except:
+                QMessageBox.about(self, "Error", "Query Error!")
+                data.Close()
         if self.comboBox.currentText() == 'Заведение':
             if subres is not None:
                 self.ShowCafe(subres)
                 self.tableWidget.resizeColumnsToContents()
                 return
-            self.ShowCafe(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            try:
+                self.ShowCafe(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            except:
+                QMessageBox.about(self, "Error", "Query Error!")
+                data.Close()
         if self.comboBox.currentText() == 'Готовка':
             if subres is not None:
                 self.ShowCreate(subres)
                 self.tableWidget.resizeColumnsToContents()
                 return
-            self.ShowCreate(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            try:
+                self.ShowCreate(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            except:
+                QMessageBox.about(self, "Error", "Query Error!")
+                data.Close()
         if self.comboBox.currentText() == 'Блюдо':
             if subres is not None:
                 self.ShowDish(subres)
                 self.tableWidget.resizeColumnsToContents()
                 return
-            self.ShowDish(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            try:
+                self.ShowDish(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            except:
+                QMessageBox.about(self, "Error", "Query Error!")
+                data.Close()
         if self.comboBox.currentText() == 'Ингридиент':
             if subres is not None:
                 self.ShowIngridient(subres)
                 self.tableWidget.resizeColumnsToContents()
                 return
-            self.ShowIngridient(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            try:
+                self.ShowIngridient(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            except:
+                QMessageBox.about(self, "Error", "Query Error!")
+                data.Close()
         if self.comboBox.currentText() == 'Владелец':
             if subres is not None:
                 self.ShowOwner(subres)
                 self.tableWidget.resizeColumnsToContents()
                 return
-            self.ShowOwner(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            try:
+                self.ShowOwner(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            except:
+                QMessageBox.about(self, "Error", "Query Error!")
+                data.Close()
         if self.comboBox.currentText() == 'Продукт':
             if subres is not None:
                 self.ShowProduct(subres)
                 self.tableWidget.resizeColumnsToContents()
                 return
-            self.ShowProduct(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            try:
+                self.ShowProduct(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            except:
+                QMessageBox.about(self, "Error", "Query Error!")
+                data.Close()
         if self.comboBox.currentText() == 'Поставщик':
             if subres is not None:
                 self.ShowProvider(subres)
                 self.tableWidget.resizeColumnsToContents()
                 return
-            self.ShowProvider(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            try:
+                self.ShowProvider(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            except:
+                QMessageBox.about(self, "Error", "Query Error!")
+                data.Close()
         if self.comboBox.currentText() == 'Рецепт':
             if subres is not None:
                 self.ShowRecipe(subres)
                 self.tableWidget.resizeColumnsToContents()
                 return
-            self.ShowRecipe(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            try:
+                self.ShowRecipe(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            except:
+                QMessageBox.about(self, "Error", "Query Error!")
+                data.Close()
         if self.comboBox.currentText() == 'Столик':
             if subres is not None:
                 self.ShowTable(subres)
                 self.tableWidget.resizeColumnsToContents()
                 return
-            self.ShowTable(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            try:
+                self.ShowTable(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            except:
+                QMessageBox.about(self, "Error", "Query Error!")
+                data.Close()
         if self.comboBox.currentText() == 'Гость':
             if subres is not None:
                 self.ShowVisitor(subres)
                 self.tableWidget.resizeColumnsToContents()
                 return
-            self.ShowVisitor(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            try:
+                self.ShowVisitor(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            except:
+                QMessageBox.about(self, "Error", "Query Error!")
+                data.Close()
         if self.comboBox.currentText() == 'Официант':
             if subres is not None:
                 self.ShowWaiter(subres)
                 self.tableWidget.resizeColumnsToContents()
                 return
-            self.ShowWaiter(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            try:
+                self.ShowWaiter(data.Select(table=self.comboBox.currentText(), strnumber=strnumber))
+            except:
+                QMessageBox.about(self, "Error", "Query Error!")
+                data.Close()
         self.tableWidget.resizeColumnsToContents()
 
     def ShowWaiter(self, result):
@@ -125,7 +181,12 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
             self.tableWidget.setItem(i, 2, QtWidgets.QTableWidgetItem(str(result[i][2])))
 
     def ShowVisitor(self, result):
-        subres = data.Select(main_query="SELECT idtable FROM cswl1.table")
+        try:
+            subres = data.Select(main_query="SELECT idtable FROM cswl1.table")
+        except:
+            QMessageBox.about(self, "Error", "Query Error!")
+            data.Close()
+            return
         buf = []
         for i in range(len(subres)):
             buf.append(str(subres[i][0]))
@@ -153,7 +214,12 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.tableWidget.setCellWidget(count - 1, 1, combobox)
 
     def ShowTable(self, result):
-        subres = data.Select(main_query="SELECT idwaiter, waitername FROM cswl1.waiter")
+        try:
+            subres = data.Select(main_query="SELECT idwaiter, waitername FROM cswl1.waiter")
+        except:
+            QMessageBox.about(self, "Error", "Query Error!")
+            data.Close()
+            return
         buf = []
         for i in range(len(subres)):
             buf.append(str(subres[i][0]) + " " + str(subres[i][1]))
@@ -202,11 +268,21 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
             self.tableWidget.setItem(i, 2, QtWidgets.QTableWidgetItem(str(result[i][2])))
 
     def ShowProduct(self, result):
-        subres = data.Select(main_query="SELECT idprovider, providername FROM cswl1.provider")
+        try:
+            subres = data.Select(main_query="SELECT idprovider, providername FROM cswl1.provider")
+        except:
+            QMessageBox.about(self, "Error", "Query Error!")
+            data.Close()
+            return
         buf = []
         for i in range(len(subres)):
             buf.append(str(subres[i][0]) + " " + str(subres[i][1]))
-        subres1 = data.Select(main_query="SELECT idcafe, cafename FROM cswl1.cafe")
+        try:
+            subres1 = data.Select(main_query="SELECT idcafe, cafename FROM cswl1.cafe")
+        except:
+            QMessageBox.about(self, "Error", "Query Error!")
+            data.Close()
+            return
         buf1 = []
         for i in range(len(subres)):
             buf1.append(str(subres1[i][0]) + " " + str(subres1[i][1]))
@@ -258,11 +334,21 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
             self.tableWidget.setItem(i, 2, QtWidgets.QTableWidgetItem(str(result[i][2])))
 
     def ShowIngridient(self, result):
-        recipes = data.Select(main_query="SELECT idrecipe, recipename FROM cswl1.recipe")
+        try:
+            recipes = data.Select(main_query="SELECT idrecipe, recipename FROM cswl1.recipe")
+        except:
+            QMessageBox.about(self, "Error", "Query Error!")
+            data.Close()
+            return
         bufrec = []
         for i in range(len(recipes)):
             bufrec.append(str(recipes[i][0]) + " " + str(recipes[i][1]))
-        products = data.Select(main_query="SELECT idproduct, productname FROM cswl1.product")
+        try:
+            products = data.Select(main_query="SELECT idproduct, productname FROM cswl1.product")
+        except:
+            QMessageBox.about(self, "Error", "Query Error!")
+            data.Close()
+            return
         bufprod = []
         for i in range(len(products)):
             bufprod.append(str(products[i][0]) + " " + str(products[i][1]))
@@ -300,15 +386,30 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.tableWidget.setCellWidget(count - 1, 3, comboboxprod)
 
     def ShowDish(self, result):
-        recipes = data.Select(main_query="SELECT idrecipe, recipename FROM cswl1.recipe")
+        try:
+            recipes = data.Select(main_query="SELECT idrecipe, recipename FROM cswl1.recipe")
+        except:
+            QMessageBox.about(self, "Error", "Query Error!")
+            data.Close()
+            return
         bufrec = []
         for i in range(len(recipes)):
             bufrec.append(str(recipes[i][0]) + " " + str(recipes[i][1]))
-        visitors = data.Select(main_query="SELECT idvisitor, visitorname FROM cswl1.visitor")
+        try:
+            visitors = data.Select(main_query="SELECT idvisitor, visitorname FROM cswl1.visitor")
+        except:
+            QMessageBox.about(self, "Error", "Query Error!")
+            data.Close()
+            return
         bufvis = []
         for i in range(len(visitors)):
             bufvis.append(str(visitors[i][0]) + " " + str(visitors[i][1]))
-        crets = data.Select(main_query="SELECT idcreating, creatingtime FROM cswl1.creating")
+        try:
+            crets = data.Select(main_query="SELECT idcreating, creatingtime FROM cswl1.creating")
+        except:
+            QMessageBox.about(self, "Error", "Query Error!")
+            data.Close()
+            return
         bufcr = []
         for i in range(len(crets)):
             bufcr.append(str(crets[i][0]) + " " + str(crets[i][1]))
@@ -358,7 +459,12 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.tableWidget.setCellWidget(count - 1, 4, comboboxvis)
 
     def ShowCreate(self, result):
-        subres = data.Select(main_query="SELECT idcook, cookaname FROM cswl1.cook")
+        try:
+            subres = data.Select(main_query="SELECT idcook, cookaname FROM cswl1.cook")
+        except:
+            QMessageBox.about(self, "Error", "Query Error!")
+            data.Close()
+            return
         buf = []
         for i in range(len(subres)):
             buf.append(str(subres[i][0]) + " " + str(subres[i][1]))
@@ -386,7 +492,12 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.tableWidget.setCellWidget(count - 1, 1, combobox)
 
     def ShowCafe(self, result):
-        subres = data.Select(main_query="SELECT idowner, ownername FROM cswl1.owner")
+        try:
+            subres = data.Select(main_query="SELECT idowner, ownername FROM cswl1.owner")
+        except:
+            QMessageBox.about(self, "Error", "Query Error!")
+            data.Close()
+            return
         buf = []
         for i in range(len(subres)):
             buf.append(str(subres[i][0]) + " " + str(subres[i][1]))
@@ -415,7 +526,12 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.tableWidget.setCellWidget(count - 1, 3, combobox)
 
     def ShowCook(self, result):
-        subres = data.Select(main_query="SELECT idcafe, cafename FROM cswl1.cafe")
+        try:
+            subres = data.Select(main_query="SELECT idcafe, cafename FROM cswl1.cafe")
+        except:
+            QMessageBox.about(self, "Error", "Query Error!")
+            data.Close()
+            return
         buf = []
         for i in range(len(subres)):
             buf.append(str(subres[i][0]) + " " + str(subres[i][1]))
@@ -589,6 +705,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     data.Merge('Повар', atr)
                 except:
                     QMessageBox.about(self, "Error!!!", "Invalid Value!")
+                    data.Close()
 
         if self.comboBox.currentText() == 'Заведение':
             for i in range(self.tableWidget.rowCount()):
@@ -604,6 +721,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     data.Merge('Заведение', atr)
                 except:
                     QMessageBox.about(self, "Error!!!", "Invalid Value!")
+                    data.Close()
 
         if self.comboBox.currentText() == 'Готовка':
             for i in range(self.tableWidget.rowCount()):
@@ -619,6 +737,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     data.Merge('Готовка', atr)
                 except:
                     QMessageBox.about(self, "Error!!!", "Invalid Value!")
+                    data.Close()
 
         if self.comboBox.currentText() == 'Блюдо':
             for i in range(self.tableWidget.rowCount()):
@@ -642,6 +761,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     data.Merge('Блюдо', atr)
                 except:
                     QMessageBox.about(self, "Error!!!", "Invalid Value!")
+                    data.Close()
 
         if self.comboBox.currentText() == 'Ингридиент':
             for i in range(self.tableWidget.rowCount()):
@@ -661,6 +781,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     data.Merge('Ингридиент', atr)
                 except:
                     QMessageBox.about(self, "Error!!!", "Invalid Value!")
+                    data.Close()
         if self.comboBox.currentText() == 'Владелец':
             for i in range(self.tableWidget.rowCount()):
                 atr = []
@@ -670,6 +791,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     data.Merge('Владелец', atr)
                 except:
                     QMessageBox.about(self, "Error!!!", "Invalid Value!")
+                    data.Close()
         if self.comboBox.currentText() == 'Продукт':
             for i in range(self.tableWidget.rowCount()):
                 provider = str(self.tableWidget.cellWidget(i, 2).currentText())
@@ -688,6 +810,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     data.Merge('Продукт', atr)
                 except:
                     QMessageBox.about(self, "Error!!!", "Invalid Value!")
+                    data.Close()
         if self.comboBox.currentText() == 'Поставщик':
             for i in range(self.tableWidget.rowCount()):
                 atr = []
@@ -697,6 +820,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     data.Merge('Поставщик', atr)
                 except:
                     QMessageBox.about(self, "Error!!!", "Invalid Value!")
+                    data.Close()
         if self.comboBox.currentText() == 'Рецепт':
             for i in range(self.tableWidget.rowCount()):
                 atr = []
@@ -706,6 +830,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     data.Merge('Рецепт', atr)
                 except:
                     QMessageBox.about(self, "Error!!!", "Invalid Value!")
+                    data.Close()
         if self.comboBox.currentText() == 'Столик':
             for i in range(self.tableWidget.rowCount()):
                 waiter = str(self.tableWidget.cellWidget(i, 2).currentText())
@@ -720,6 +845,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     data.Merge('Столик', atr)
                 except:
                     QMessageBox.about(self, "Error!!!", "Invalid Value!")
+                    data.Close()
 
         if self.comboBox.currentText() == 'Гость':
             for i in range(self.tableWidget.rowCount()):
@@ -734,6 +860,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     data.Merge('Гость', atr)
                 except:
                     QMessageBox.about(self, "Error!!!", "Invalid Value!")
+                    data.Close()
         if self.comboBox.currentText() == 'Официант':
             for i in range(self.tableWidget.rowCount()):
                 atr = []
@@ -743,6 +870,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     data.Merge('Официант', atr)
                 except:
                     QMessageBox.about(self, "Error!!!", "Invalid Value!")
+                    data.Close()
         self.Show()
 
     def Delete(self):
@@ -752,6 +880,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
             data.Delete(self.comboBox.currentText(), id)
         except:
             QMessageBox.about(self, "Error!!!", "Deleting error")
+            data.Close()
         self.Show()
 
 

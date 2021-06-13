@@ -11,6 +11,9 @@ class Db:
         text = str(text)
         return re.sub('[^A-Za-z0-9а-яА-ЯЁё ]+', '', text)
 
+    def Close(self):
+        self.conn.close()
+
     def Select(self, table=None, main_query=None, condition=None, strnumber=None):
         cursor = self.conn.cursor()
         query = ""
@@ -71,18 +74,16 @@ class Db:
                         "SELECT idcook, cookaname, cookexp, cafename FROM CookTable " \
                         "LEFT JOIN cswl1.cafe ON cooktable.idcafe = cafe.idcafe "
             self.last_query = query
-            query = query + " WHERE RowNumb between " + str(18 * (strnumber - 1)) + " and " + str(18 * strnumber)
+            query = query + " WHERE RowNumb between %s and %s " % (str(18 * (strnumber - 1)), str(18 * strnumber))
             if condition is not None:
                 query = query + " AND " + condition
         else:
             query = main_query
             if strnumber is not None:
                 if query.find("WHERE") != -1:
-                    query = query + " AND RowNumb between " + str(18 * (strnumber - 1)) \
-                            + " and " + str(18 * strnumber)
+                    query = query + " AND RowNumb between %s and %s " % (str(18 * (strnumber - 1)), str(18 * strnumber))
                 else:
-                    query = query + " WHERE RowNumb between " + str(18 * (strnumber - 1)) \
-                            + " and " + str(18 * strnumber)
+                    query = query + " WHERE RowNumb between %s and %s " % (str(18 * (strnumber - 1)), str(18 * strnumber))
         cursor.execute(query)
         result = cursor.fetchall()
         cursor.close()
@@ -93,40 +94,40 @@ class Db:
         query = ""
         if table == 'Повар':
             query = " (lower(idcook) like '%{0}%' or lower(cookaname) like '%{0}}%' or lower(cookexp) like '%{0}%' " \
-                    "or lower(cafename) like '%{0}%') ".format(usl)
+                    "or lower(cafename) like '%{0}%') ".format(self.Format(usl))
         if table == 'Заведение':
             query = " (lower(idcafe) like '%{0}%' or lower(cafename) like '%{0}%' or lower(caferating)like '%{0}%' " \
-                    "or lower(ownername) like '%{0}%') ".format(usl)
+                    "or lower(ownername) like '%{0}%') ".format(self.Format(usl))
         if table == 'Готовка':
             query = " (lower(idcreating) like '%{0}%' or lower(creatingtime) like '%{0}%' " \
-                    "or lower(cookaname) like '%{0}%') ".format(usl)
+                    "or lower(cookaname) like '%{0}%') ".format(self.Format(usl))
         if table == 'Блюдо':
             query = " (lower(iddish) like '%{0}%' or lower(dishname) like '%{0}%' or lower(recipename) like '%{0}%' " \
-                    "or lower(creatingtime) like '%{0}%' or lower(visitorname) like '%{0}%') ".format(usl)
+                    "or lower(creatingtime) like '%{0}%' or lower(visitorname) like '%{0}%') ".format(self.Format(usl))
         if table == 'Ингридиент':
             query = " (lower(idingridient) like '%{0}%' or lower(ingridientcount) like '%{0}%' " \
-                    "or lower(recipename) like '%{0}%' or lower(productname) like '%{0}%') ".format(usl)
+                    "or lower(recipename) like '%{0}%' or lower(productname) like '%{0}%') ".format(self.Format(usl))
         if table == 'Владелец':
             query = " (lower(idowner) like '%{0}%' or lower(ownername) like '%{0}%' " \
-                    "or lower(ownernumber) like '%{0}%') ".format(usl)
+                    "or lower(ownernumber) like '%{0}%') ".format(self.Format(usl))
         if table == 'Продукт':
             query = " (lower(idproduct) like '%{0}%' or lower(productname) like '%{0}%' " \
                     "or lower(providername) like '%{0}%' or lower(productcount) like '%{0}%' " \
-                    "or lower(cafename) like '%{0}%') ".format(usl)
+                    "or lower(cafename) like '%{0}%') ".format(self.Format(usl))
         if table == 'Поставщик':
             query = " (lower(idprovider) like '%{0}%' or lower(providername) like '%{0}%' " \
-                    "or lower(providernumber) like '%{0}%') ".format(usl)
+                    "or lower(providernumber) like '%{0}%') ".format(self.Format(usl))
         if table == 'Рецепт':
-            query = " (lower(idrecipe) like '%{0}%' or lower(recipename) like '%{0}%') ".format(usl)
+            query = " (lower(idrecipe) like '%{0}%' or lower(recipename) like '%{0}%') ".format(self.Format(usl))
         if table == 'Столик':
             query = " (lower(idtable) like '%{0}%' or lower(tablellvl) like '%{0}%' " \
-                    "or lower(waitername) like '%{0}%') ".format(usl)
+                    "or lower(waitername) like '%{0}%') ".format(self.Format(usl))
         if table == 'Гость':
             query = " (lower(idvisitor) like '%{0}%' or lower(visitorname) like '%{0}%' " \
-                    "or lower(idtable) like '%{0}%') ".format(usl)
+                    "or lower(idtable) like '%{0}%') ".format(self.Format(usl))
         if table == 'Официант':
             query = " (lower(idwaiter) like '%{0}%' or lower(waitername) like '%{0}%'" \
-                    " or lower(waiterexp) like '%{0}%') "
+                    " or lower(waiterexp) like '%{0}%') ".format(self.Format(usl))
         res = self.Select(table=table, condition=query, strnumber=1)
         self.last_query += " WHERE " + query
         return res
@@ -484,28 +485,28 @@ class Db:
     def Delete(self, table, id):
         cursor = self.conn.cursor()
         if table == 'Повар':
-            cursor.execute("DELETE FROM `cswl1`.`cook` WHERE (`idcook` = '" + id + "');")
+            cursor.execute("DELETE FROM `cswl1`.`cook` WHERE (`idcook` = '{0}');".format(id))
         if table == 'Заведение':
-            cursor.execute("DELETE FROM `cswl1`.`cafe` WHERE (`idcafe` = '" + id + "');")
+            cursor.execute("DELETE FROM `cswl1`.`cafe` WHERE (`idcafe` = '{0}');".format(id))
         if table == 'Готовка':
-            cursor.execute("DELETE FROM `cswl1`.`creating` WHERE (`idcreating` = '" + id + "');")
+            cursor.execute("DELETE FROM `cswl1`.`creating` WHERE (`idcreating` = '{0}');".format(id))
         if table == 'Блюдо':
-            cursor.execute("DELETE FROM `cswl1`.`dish` WHERE (`iddish` = '" + id + "');")
+            cursor.execute("DELETE FROM `cswl1`.`dish` WHERE (`iddish` = '{0}');".format(id))
         if table == 'Ингридиент':
-            cursor.execute("DELETE FROM `cswl1`.`ingridient` WHERE (`idingridient` = '" + id + "');")
+            cursor.execute("DELETE FROM `cswl1`.`ingridient` WHERE (`idingridient` = '{0}');".format(id))
         if table == 'Владелец':
-            cursor.execute("DELETE FROM `cswl1`.`owner` WHERE (`idowner` = '" + id + "');")
+            cursor.execute("DELETE FROM `cswl1`.`owner` WHERE (`idowner` = '{0}');".format(id))
         if table == 'Продукт':
-            cursor.execute("DELETE FROM `cswl1`.`product` WHERE (`idproduct` = '" + id + "');")
+            cursor.execute("DELETE FROM `cswl1`.`product` WHERE (`idproduct` = '{0}');".format(id))
         if table == 'Поставщик':
-            cursor.execute("DELETE FROM `cswl1`.`provider` WHERE (`idprovider` = '" + id + "');")
+            cursor.execute("DELETE FROM `cswl1`.`provider` WHERE (`idprovider` = '{0}');".format(id))
         if table == 'Рецепт':
-            cursor.execute("DELETE FROM `cswl1`.`recipe` WHERE (`idrecipe` = '" + id + "');")
+            cursor.execute("DELETE FROM `cswl1`.`recipe` WHERE (`idrecipe` = '{0}');".format(id))
         if table == 'Столик':
-            cursor.execute("DELETE FROM `cswl1`.`table` WHERE (`idtable` = '" + id + "');")
+            cursor.execute("DELETE FROM `cswl1`.`table` WHERE (`idtable` = '{0}');".format(id))
         if table == 'Гость':
-            cursor.execute("DELETE FROM `cswl1`.`visitor` WHERE (`idvisitor` = '" + id + "');")
+            cursor.execute("DELETE FROM `cswl1`.`visitor` WHERE (`idvisitor` = '{0}');".format(id))
         if table == 'Официант':
-            cursor.execute("DELETE FROM `cswl1`.`waiter` WHERE (`idwaiter` = '" + id + "');")
+            cursor.execute("DELETE FROM `cswl1`.`waiter` WHERE (`idwaiter` = '{0}');".format(id))
         cursor.execute("COMMIT;")
         cursor.close()
