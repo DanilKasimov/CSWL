@@ -780,7 +780,14 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                 atr = []
                 for j in range(self.tableWidget.columnCount()):
                     if j != 2:
-                        atr.append(self.tableWidget.item(i, j))
+                        if j == 0 and self.tableWidget.item(i, j) is None:
+                            atr.append(0)
+                        else:
+                            try:
+                                atr.append(self.tableWidget.item(i, j).text())
+                            except:
+                                self.Show()
+                                return
                     else:
                         atr.append(cafe)
                 try:
@@ -796,7 +803,14 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                 atr = []
                 for j in range(self.tableWidget.columnCount()):
                     if j != 3:
-                        atr.append(self.tableWidget.item(i, j))
+                        if j == 0 and self.tableWidget.item(i, j) is None:
+                            atr.append(0)
+                        else:
+                            try:
+                                atr.append(self.tableWidget.item(i, j).text())
+                            except:
+                                self.Show()
+                                return
                     else:
                         atr.append(owner)
                 try:
@@ -812,7 +826,15 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                 atr = []
                 for j in range(self.tableWidget.columnCount()):
                     if j != 1:
-                        atr.append(self.tableWidget.item(i, j))
+                        if j == 0 and self.tableWidget.item(i, j) is None:
+                            atr.append(0)
+                        else:
+                            try:
+                                if j != 2:
+                                    atr.append(self.tableWidget.item(i, j).text())
+                            except:
+                                self.Show()
+                                return
                     else:
                         atr.append(cook)
                 try:
@@ -838,7 +860,14 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     elif j == 4:
                         atr.append(visitor)
                     else:
-                        atr.append(self.tableWidget.item(i, j))
+                        if j == 0 and self.tableWidget.item(i, j) is None:
+                            atr.append(0)
+                        else:
+                            try:
+                                atr.append(self.tableWidget.item(i, j).text())
+                            except:
+                                self.Show()
+                                return
                 try:
                     data.Merge('Блюдо', atr)
                 except:
@@ -858,7 +887,14 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     elif j == 3:
                         atr.append(product)
                     else:
-                        atr.append(self.tableWidget.item(i, j))
+                        if j == 0 and self.tableWidget.item(i, j) is None:
+                            atr.append(0)
+                        else:
+                            try:
+                                atr.append(self.tableWidget.item(i, j).text())
+                            except:
+                                self.Show()
+                                return
                 try:
                     data.Merge('Ингридиент', atr)
                 except:
@@ -868,7 +904,14 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
             for i in range(self.tableWidget.rowCount()):
                 atr = []
                 for j in range(self.tableWidget.columnCount()):
-                    atr.append(self.tableWidget.item(i, j))
+                    if j == 0 and self.tableWidget.item(i, j) is None:
+                        atr.append(0)
+                    else:
+                        try:
+                            atr.append(self.tableWidget.item(i, j).text())
+                        except:
+                            self.Show()
+                            return
                 try:
                     data.Merge('Владелец', atr)
                 except:
@@ -887,7 +930,14 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     elif j == 4:
                         atr.append(cafe)
                     else:
-                        atr.append(self.tableWidget.item(i, j))
+                        if j == 0 and self.tableWidget.item(i, j) is None:
+                            atr.append(0)
+                        else:
+                            try:
+                                atr.append(self.tableWidget.item(i, j).text())
+                            except:
+                                self.Show()
+                                return
                 try:
                     data.Merge('Продукт', atr)
                 except:
@@ -897,7 +947,14 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
             for i in range(self.tableWidget.rowCount()):
                 atr = []
                 for j in range(self.tableWidget.columnCount()):
-                    atr.append(self.tableWidget.item(i, j))
+                    if j == 0 and self.tableWidget.item(i, j) is None:
+                        atr.append(0)
+                    else:
+                        try:
+                            atr.append(self.tableWidget.item(i, j).text())
+                        except:
+                            self.Show()
+                            return
                 try:
                     data.Merge('Поставщик', atr)
                 except:
@@ -907,7 +964,14 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
             for i in range(self.tableWidget.rowCount()):
                 atr = []
                 for j in range(self.tableWidget.columnCount()):
-                    atr.append(self.tableWidget.item(i, j))
+                    if j == 0 and self.tableWidget.item(i, j) is None:
+                        atr.append(0)
+                    else:
+                        try:
+                            atr.append(self.tableWidget.item(i, j).text())
+                        except:
+                            self.Show()
+                            return
                 try:
                     data.Merge('Рецепт', atr)
                 except:
@@ -920,7 +984,14 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                 atr = []
                 for j in range(self.tableWidget.columnCount()):
                     if j != 2:
-                        atr.append(self.tableWidget.item(i, j))
+                        if j == 0 and self.tableWidget.item(i, j) is None:
+                            atr.append(0)
+                        else:
+                            try:
+                                atr.append(self.tableWidget.item(i, j).text())
+                            except:
+                                self.Show()
+                                return
                     else:
                         atr.append(waiter)
                 try:
@@ -937,7 +1008,14 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     if j == 1:
                         atr.append(table)
                     else:
-                        atr.append(self.tableWidget.item(i, j))
+                        if j == 0 and self.tableWidget.item(i, j) is None:
+                            atr.append(0)
+                        else:
+                            try:
+                                atr.append(self.tableWidget.item(i, j).text())
+                            except:
+                                self.Show()
+                                return
                 try:
                     data.Merge('Гость', atr)
                 except:
@@ -947,7 +1025,14 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
             for i in range(self.tableWidget.rowCount()):
                 atr = []
                 for j in range(self.tableWidget.columnCount()):
-                    atr.append(self.tableWidget.item(i, j))
+                    if j == 0 and self.tableWidget.item(i, j) is None:
+                        atr.append(0)
+                    else:
+                        try:
+                            atr.append(self.tableWidget.item(i, j).text())
+                        except:
+                            self.Show()
+                            return
                 try:
                     data.Merge('Официант', atr)
                 except:
