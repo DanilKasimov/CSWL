@@ -41,6 +41,10 @@ class Ui_MainWindow(object):
         self.DelButton.setGeometry(QtCore.QRect(610, 300, 181, 51))
         self.DelButton.setFont(font)
         self.DelButton.setObjectName("DelButton")
+        self.SyncButton = QtWidgets.QPushButton(self.centralwidget)
+        self.SyncButton.setGeometry(QtCore.QRect(610, 380, 181, 51))
+        self.SyncButton.setFont(font)
+        self.SyncButton.setObjectName("SyncButton")
         self.SearchButton = QtWidgets.QPushButton(self.centralwidget)
         self.SearchButton.setGeometry(QtCore.QRect(610, 140, 181, 51))
         self.SearchButton.setFont(font)
@@ -75,6 +79,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "База Данных"))
         self.DelButton.setText(_translate("MainWindow", "Удалить"))
+        self.SyncButton.setText(_translate("MainWindow", "Синхронизировать"))
         self.SearchButton.setText(_translate("MainWindow", "Поиск"))
         self.UpdateButton.setText(_translate("MainWindow", "Сохранить"))
         self.RightButton.setText(_translate("MainWindow", ">"))

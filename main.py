@@ -3,6 +3,9 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 import design
 import Db
+import os
+import hashlib
+import re
 
 data = Db.Db(host='localhost', database='cswl1', user='root', password='Danilka210300')
 strnumber = 1
@@ -18,6 +21,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.RightButton.clicked.connect(self.Right)
         self.LeftButton.clicked.connect(self.Left)
         self.DelButton.clicked.connect(self.Delete)
+        self.SyncButton.clicked.connect(self.SyncDB)
 
     def Right(self):
         global strnumber
@@ -40,6 +44,84 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         except:
             QMessageBox.about(self, "Error", "Query Error!")
             data.Close()
+
+    def md5(self, fname):
+        hash_md5 = hashlib.md5()
+        with open(fname, "rb") as f:
+            for chunk in iter(lambda: f.read(4096), b""):
+                hash_md5.update(chunk)
+        return hash_md5.hexdigest()
+
+    def exec_sql_file(self, cursor, sql_file):
+        statement = ""
+        for line in open(sql_file, encoding='utf-8'):
+            if re.match(r'--', line):
+                continue
+            if not re.search(r';$', line):
+                statement = statement + line
+            else:
+                statement = statement + line
+                try:
+                    cursor.execute(statement)
+                except:
+                    cursor.close()
+                statement = ""
+
+    def CreateDb(self):
+        directory = os.getcwd()
+        files = os.listdir(directory)
+        arr = []
+        for i in files:
+            if i[-4:] == '.sql':
+                if len(re.sub('[^0-9]+', '', i)) != 4:
+                    QMessageBox.about(self, "Error", "Invalid .sql file name")
+                    return
+                arr.append(i)
+        for i in arr:
+            cursor = data.conn.cursor()
+            f = open(i)
+            cursor.execute(f.read())
+            cursor.close()
+
+    def SyncDB(self):
+        directory = os.getcwd()
+        files = os.listdir(directory)
+        arr = []
+        for i in files:
+            if i[-4:] == '.sql':
+                if len(re.sub('[^0-9]+', '', i)) != 4:
+                    QMessageBox.about(self, "Error", "Invalid .sql file name")
+                    return
+                arr.append(i)
+        for i in arr:
+            cursor = data.conn.cursor()
+            try:
+                cursor.execute("SELECT * FROM cswl1.files WHERE filename = '" + i + "'")
+            except:
+                cursor.close()
+                self.CreateDb()
+                return
+            res = cursor.fetchall()
+            cursor.close()
+            if len(res) == 0:
+                cursor = data.conn.cursor()
+                try:
+                    self.exec_sql_file(cursor, i)
+                except:
+                    QMessageBox.about(self, "Error!", "Invalid SqlFile " + i)
+                cursor.close()
+                cursor = data.conn.cursor()
+                cursor.execute("INSERT INTO cswl1.files(FileName, FileHash)VALUES('%s', '%s')" % (i, self.md5(i)))
+                cursor.execute("COMMIT")
+                cursor.close()
+            else:
+                if self.md5(i) == res[0][1]:
+                    QMessageBox.about(self, "Message", "You are using the current version of the database")
+                    return
+                else:
+                    QMessageBox.about(self, "Error!", "The content of the file has been changed " + i)
+                    return
+        QMessageBox.about(self, "Message!", "Sync of Database ended")
 
     def Search(self):
         usl = self.SearchText.text()
